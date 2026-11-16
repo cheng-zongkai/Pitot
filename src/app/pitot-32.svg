@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <g id="mark">
+      <path d="M14 12 H25 A1 1 0 0 1 26 13 V15 A1 1 0 0 1 25 16 H14 A2 2 0 0 1 14 12 Z"/>
+      <path d="M15 17 H25 L26 22 H19 Z"/>
+      <rect x="14" y="22" width="13" height="2" rx="1"/>
+      <rect x="6" y="8" width="7" height="2" rx="1"/>
+      <rect x="5" y="13" width="5" height="2" rx="1"/>
+      <rect x="6" y="17" width="7" height="2" rx="1"/>
+    </g>
+  </defs>
+  <use href="#mark" fill="#ffffff" stroke="#ffffff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <use href="#mark" fill="#000000"/>
+</svg>

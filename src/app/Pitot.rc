@@ -1,0 +1,36 @@
+// ASCII only: rc.exe reads this file in the ANSI code page.
+#include <winver.h>
+#include "resource.h"
+
+IDI_PITOT ICON "pitot.ico"
+
+IDR_PAWNIO_AMDFAMILY17 RCDATA "../../third_party/pawnio/AMDFamily17.bin"
+IDR_PAWNIO_LPCIO RCDATA "../../third_party/pawnio/LpcIO.bin"
+IDR_PAWNIO_INTELMSR RCDATA "../../third_party/pawnio/IntelMSR.bin"
+
+// FileDescription is what Task Manager (and Pitot's own process list) shows as the name
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,1,0,0
+ PRODUCTVERSION 0,1,0,0
+ FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+ FILEFLAGS 0
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
+ FILESUBTYPE VFT2_UNKNOWN
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904b0"
+    BEGIN
+      VALUE "FileDescription", "Pitot"
+      VALUE "ProductName", "Pitot"
+      VALUE "FileVersion", "0.1.0"
+      VALUE "ProductVersion", "0.1.0"
+      VALUE "OriginalFilename", "Pitot.exe"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1200
+  END
+END

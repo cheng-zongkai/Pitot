@@ -1,0 +1,36 @@
+name: Bug report
+description: Report a crash, visual glitch, or wrong reading in Pitot
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the issue clearly, including what you expected to see.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Start Pitot...
+        2. Click on...
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Windows 11 build, display scaling, CPU, motherboard, and GPU.
+      placeholder: "Win11 24H2 (26100), 150% DPI, Ryzen 7 5700X, RX 9060 XT"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Crash dump
+      description: >
+        Attach or paste relevant lines from `%LOCALAPPDATA%\Pitot\pitot.log`
+        (and any `crash-*.dmp` file for crashes).

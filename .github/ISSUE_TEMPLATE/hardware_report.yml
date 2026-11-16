@@ -1,0 +1,35 @@
+name: Hardware support report
+description: Report sensor readings or missing support on your CPU, motherboard, or GPU
+title: "[Hardware]: "
+labels: ["hardware"]
+body:
+  - type: textarea
+    id: specs
+    attributes:
+      label: Hardware details
+      description: CPU model, motherboard brand/model, GPU model, and Windows 11 build.
+      placeholder: |
+        CPU: Intel Core i7-13700K
+        Motherboard: ASUS ROG STRIX Z790-A
+        GPU: NVIDIA RTX 4070
+        OS: Windows 11 24H2
+    validations:
+      required: true
+  - type: textarea
+    id: comparison
+    attributes:
+      label: Comparison with reference tools
+      description: >
+        Compare Pitot's readings against HWiNFO, Task Manager, or nvidia-smi.
+        Note any missing, zeroed, or mismatched values.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant pitot.log lines
+      description: >
+        Paste the startup, `board:`, `zen:`/`intel:`, `gpu`, or `unknown ... chip` lines
+        from `%LOCALAPPDATA%\Pitot\pitot.log`.
+    validations:
+      required: true

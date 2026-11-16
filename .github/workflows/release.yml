@@ -1,0 +1,43 @@
+name: Release
+
+# Pushing a version tag such as 0.1.0 or 0.1.0-dev builds Release, runs the unit tests and
+# publishes a GitHub release. A tag with a "-" suffix is marked as a pre-release.
+# The assets are the installer, the portable zip and SHA256SUMS.txt (D-091). PitotAdlx.dll is not
+# built here: the AMD ADLX SDK license (D-033) is only accepted on the maintainer's machine, so
+# scripts/repack-adlx.ps1 later rebuilds the installer and zip with the local DLL inside.
+on:
+  push:
+    tags: ['[0-9]+.[0-9]+.[0-9]+*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Publish
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Release and run tests
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build.ps1 -Config release -Test
+      - name: Install Inno Setup
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\get-innosetup.ps1
+      - name: Package
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\package.ps1 -Version $env:GITHUB_REF_NAME
+      - name: Publish GitHub release
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = $env:GITHUB_REF_NAME
+          $ghArgs = @(
+              'release', 'create', $tag,
+              "dist\Pitot-$tag-setup.exe", "dist\Pitot-$tag-win-x64.zip", 'dist\SHA256SUMS.txt',
+              '--verify-tag', '--title', "Pitot $tag",
+              '--notes-file', '.github\release-notes.md', '--generate-notes')
+          if ($tag.Contains('-')) { $ghArgs += '--prerelease' }
+          gh @ghArgs
+          if ($LASTEXITCODE -ne 0) { throw "gh release create failed: $LASTEXITCODE" }
