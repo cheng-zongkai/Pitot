@@ -14,6 +14,7 @@ namespace {
 
 constexpr uint32_t kVendorAmd = 0x1002;
 constexpr int kMaxAdapters = 16;
+constexpr ULONGLONG kAdapterRetryMs = 10 * 1000;
 // D3DKMT 温度单位是 0.1 ℃
 constexpr float kDeciCelsius = 0.1f;
 
@@ -40,13 +41,45 @@ bool GpuSensor::QueryInfo(KMTQUERYADAPTERINFOTYPE type, void* data, UINT size) c
     return D3DKMTQueryAdapterInfo(&query) == 0;
 }
 
+bool GpuSensor::QueryAdapterStatistics(D3DKMT_QUERYSTATISTICS& stats) const {
+    stats.Type = D3DKMT_QUERYSTATISTICS_ADAPTER;
+    stats.AdapterLuid = luid_;
+    return D3DKMTQueryStatistics(&stats) == 0;
+}
+
+bool GpuSensor::RefreshAdapter(ULONGLONG now) {
+    const bool had_adapter = present();
+    if (had_adapter) {
+        D3DKMT_QUERYSTATISTICS stats{};
+        D3DKMT_ADAPTERTYPE type{};
+        const bool has_statistics = QueryAdapterStatistics(stats);
+        if (has_statistics == has_statistics_ && QueryInfo(KMTQAITYPE_ADAPTERTYPE, &type, sizeof(type))) {
+            return false;
+        }
+
+        log::Write(L"gpu: refreshing adapter (luid 0x%08lX_0x%08lX, statistics %d -> %d)",
+                   static_cast<unsigned long>(luid_.HighPart), luid_.LowPart, has_statistics_, has_statistics);
+        UnloadExtra();
+        CloseAdapter(adapter_);
+        adapter_ = 0;
+    } else if (now < adapter_retry_at_) {
+        return false;
+    }
+
+    Init();
+    adapter_retry_at_ = present() ? 0 : now + kAdapterRetryMs;
+    return had_adapter || present();
+}
+
 void GpuSensor::Init() {
     D3DKMT_ADAPTERINFO adapters[kMaxAdapters]{};
     D3DKMT_ENUMADAPTERS2 enumerate{};
     enumerate.NumAdapters = kMaxAdapters;
     enumerate.pAdapters = adapters;
     if (D3DKMTEnumAdapters2(&enumerate) != 0) {
-        log::Write(L"gpu: D3DKMTEnumAdapters2 failed");
+        if (adapter_retry_at_ == 0) {
+            log::Write(L"gpu: D3DKMTEnumAdapters2 failed");
+        }
         return;
     }
     // 显存最大的硬件显卡（混合显卡的笔记本上就是独显）
@@ -70,12 +103,22 @@ void GpuSensor::Init() {
         }
     }
     if (best < 0) {
-        log::Write(L"gpu: no hardware adapter");
+        if (adapter_retry_at_ == 0) {
+            log::Write(L"gpu: no hardware adapter");
+        }
         return;
     }
     adapter_ = adapters[best].hAdapter;
     luid_ = adapters[best].AdapterLuid;
     vram_total_ = best_vram;
+    vendor_id_ = 0;
+    device_id_ = 0;
+    name_[0] = L'\0';
+    segment_count_ = 0;
+    node_count_ = 0;
+    primed_ = false;
+    fan_seen_ = false;
+    extra_logged_ = false;
 
     D3DKMT_ADAPTERREGISTRYINFO registry{};
     if (QueryInfo(KMTQAITYPE_ADAPTERREGISTRYINFO, &registry, sizeof(registry))) {
@@ -88,10 +131,9 @@ void GpuSensor::Init() {
     }
 
     D3DKMT_QUERYSTATISTICS stats{};
-    stats.Type = D3DKMT_QUERYSTATISTICS_ADAPTER;
-    stats.AdapterLuid = luid_;
     UINT node_total = 0;
-    if (D3DKMTQueryStatistics(&stats) == 0) {
+    has_statistics_ = QueryAdapterStatistics(stats);
+    if (has_statistics_) {
         node_total = stats.QueryResult.AdapterInformation.NodeCount;
         segment_count_ = stats.QueryResult.AdapterInformation.NbSegments;
     }
@@ -103,8 +145,9 @@ void GpuSensor::Init() {
             nodes_[static_cast<size_t>(node_count_++)] = n;
         }
     }
-    log::Write(L"gpu: [%s] %04X:%04X vram %llu MB, %u nodes (%d 3D), %u segments", name_, vendor_id_, device_id_,
-               vram_total_ >> 20, node_total, node_count_, segment_count_);
+    log::Write(L"gpu: [%s] %04X:%04X vram %llu MB, %u nodes (%d 3D), %u segments, luid 0x%08lX_0x%08lX", name_,
+               vendor_id_, device_id_, vram_total_ >> 20, node_total, node_count_, segment_count_,
+               static_cast<unsigned long>(luid_.HighPart), luid_.LowPart);
 }
 
 std::optional<int64_t> GpuSensor::RunningTime(UINT node) const {

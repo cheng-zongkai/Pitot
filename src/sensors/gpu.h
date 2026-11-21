@@ -29,8 +29,8 @@ public:
     GpuSensor(const GpuSensor&) = delete;
     GpuSensor& operator=(const GpuSensor&) = delete;
 
-    // 选出显存最大的硬件显卡
-    void Init();
+    // 返回适配器是否重新绑定或已丢失
+    bool RefreshAdapter(ULONGLONG now);
     void Sample(sampler::GpuReadings& out);
 
     // 浮窗打开 / 关闭
@@ -43,13 +43,17 @@ public:
 private:
     static constexpr int kMaxNodes = 4;
 
+    void Init();
     bool QueryInfo(KMTQUERYADAPTERINFOTYPE type, void* data, UINT size) const;
+    bool QueryAdapterStatistics(D3DKMT_QUERYSTATISTICS& stats) const;
     std::optional<int64_t> RunningTime(UINT node) const;
     void LoadExtra();
     void UnloadExtra();
 
     D3DKMT_HANDLE adapter_ = 0;
     LUID luid_{};
+    ULONGLONG adapter_retry_at_ = 0;
+    bool has_statistics_ = false;
     uint32_t vendor_id_ = 0;
     uint32_t device_id_ = 0;
     wchar_t name_[64]{};

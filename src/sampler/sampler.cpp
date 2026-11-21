@@ -240,7 +240,7 @@ void Sampler::Run() noexcept {
         sensors::BoardSensors board;
         board.Init();
         sensors::GpuSensor gpu;
-        gpu.Init();
+        gpu.RefreshAdapter(GetTickCount64());
         GpuReadings gpu_readings;
         sensors::StorageSensor storage;
         storage.Init();
@@ -407,6 +407,19 @@ void Sampler::Run() noexcept {
             const uint64_t sensor_every =
                 std::max<uint64_t>(1, static_cast<uint64_t>(sensor_interval_ms_.load() / base_ms));
             const bool sensor_turn = sensor_round++ % sensor_every == 0;
+            // 刚加载扩展读数或切到 GPU 面板时提前采样，不等传感器周期
+            const bool sample_gpu = sensor_turn || extra_loaded || gpu_panel_started || gpu_prime;
+            if (sample_gpu && gpu.RefreshAdapter(now)) {
+                // 新适配器的引擎计数和进程列表需要重新建立基准
+                gpu_readings = {};
+                gpu_processes.Stop();
+                gpu_top_count = 0;
+                gpu_top_valid = false;
+                gpu_processes_due = false;
+                gpu_retry_at = 0;
+                extra_load_pending = want_detail && gpu.present();
+                extra_log_pending = false;
+            }
             const bool want_gpu_processes = want_detail && panel == kPanelGpu && gpu.present();
             if (want_gpu_processes && !gpu_processes.active() && now >= gpu_retry_at) {
                 // 第一次采集只建立基准；刚打开面板时下一轮是 250 ms 的补采轮，马上出结果。
@@ -519,9 +532,7 @@ void Sampler::Run() noexcept {
                 cpu_sensors.SampleThermalPower(readings);
                 board.Sample(readings);
             }
-            // 刚加载完 ADLX 的下一轮也读；切到 GPU 面板的当轮和补采轮也读，
-            // 利用率和频率马上刷新，不等 2 秒的传感器周期
-            if (sensor_turn || extra_loaded || gpu_panel_started || gpu_prime) {
+            if (sample_gpu) {
                 gpu.Sample(gpu_readings);
                 gpu.SampleExtra(gpu_readings);
             }

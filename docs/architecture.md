@@ -64,6 +64,8 @@ Launched as `Pitot.exe --settings` (`Local\Pitot.Settings` single-instance mutex
 
 Collectors marked **On demand** run only while the flyout (or the specified panel) is open. When the flyout opens (or switches to GPU), the sampler collects a baseline round immediately and a delta round after 250 ms so clock/process rates populate without waiting a full period. On ETW startup, extra bounded flushes every 100 ms (up to 2 s) accelerate first delivery.
 
+When a display driver update removes the current GPU adapter, the sampler re-enumerates adapters and rebuilds GPU readings and any active GPU process collection for the new adapter. Pitot can recover without a restart.
+
 | Panel | Metric | Source | Priv | Period |
 | --- | --- | --- | --- | --- |
 | CPU | Total & per-core load | PDH `\Processor Information(*)\% Processor Utility` (English name) | Normal | 1 s |

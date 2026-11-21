@@ -1,6 +1,6 @@
 # Progress
 
-Last updated: 2026-11-16
+Last updated: 2026-11-21
 
 ## Status
 
@@ -22,6 +22,7 @@ All eight milestones (M1–M8) are accepted and verified on the primary machine.
 Pitot's primary development machine is AMD Ryzen 7 5700X + MSI B550 (NCT6687D) + Radeon RX 9060 XT. The following paths are unit-tested or header-reviewed and await community or hardware verification:
 
 - **NVIDIA extended GPU metrics (`PitotNvidia.dll`):** NVML/NVAPI hotspot, VRAM temp, board power, fan RPM, and empty GPU process list behavior under load.
+- **Live GPU recovery after a display driver update:** The RX 9060 XT resumed reporting 3D utilization, clock, and dedicated VRAM on driver `32.0.32029.2010` after restarting with the fixed build. Verify that the basic readings and GPU process list recover during a driver update with Pitot left running.
 - **Intel CPU sensors (`IntelMSR`):** Package temp, package power, and active clock vs HWiNFO.
 - **Other motherboard Super I/O chips:** Nuvoton NCT6779D–NCT6799D (including BIOS I/O unlock), ITE IT86xx/IT87xx (dual-chip), and Fintek F718xx.
 - **PawnIO interactive installer:** Clean Windows 11 machine without PawnIO.
