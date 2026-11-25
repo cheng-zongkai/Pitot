@@ -1,6 +1,6 @@
 # Progress
 
-Last updated: 2026-11-21
+Last updated: 2026-11-25
 
 ## Status
 
@@ -32,4 +32,4 @@ Pitot's primary development machine is AMD Ryzen 7 5700X + MSI B550 (NCT6687D) +
 ## Next Steps
 
 1. Collect hardware verification feedback on the paths above (via GitHub Issues / PRs).
-2. The first stable release, `0.1.0`, is published by the [release workflow](environment.md#releasing) as an unsigned installer and portable zip ([D-091](decisions/D-091.md)); the locally built `PitotAdlx.dll` and `PitotAdlx-EULA.txt` are packed into both with `scripts/repack-adlx.ps1` ([D-033](decisions/D-033.md)). Before the next release, obtain a trusted code-signing certificate, [sign the release binaries](environment.md#signing-release-binaries) and the installer, and have the end-user agreement reviewed.
+2. The current release, `0.1.1` (2026-11-25), is published by the [release workflow](environment.md#releasing) as an unsigned installer and portable zip ([D-091](decisions/D-091.md)); the locally built `PitotAdlx.dll` and `PitotAdlx-EULA.txt` are packed into both with `scripts/repack-adlx.ps1` ([D-033](decisions/D-033.md)). (The earlier `0.1.0` tag exists, but its release was deleted before publication; `0.1.1` is the first published release.) Before the next release, obtain a trusted code-signing certificate, [sign the release binaries](environment.md#signing-release-binaries) and the installer, and have the end-user agreement reviewed.
