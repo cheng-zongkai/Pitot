@@ -2216,7 +2216,7 @@ int FlyoutWindow::TemperatureTone(double celsius) const {
 }
 
 D2D1_COLOR_F FlyoutWindow::TemperatureColor(double celsius) const {
-    // docs/architecture.md：低于警告阈值用强调色，到警告阈值橙色，到高温阈值红色（[sensors] warn / hot，默认 60 / 80）
+    // 颜色规则见 docs/subsystems/flyout.md，阈值默认值见 docs/configuration.md。
     if (celsius >= config_.sensors.hot) {
         return theme_.hot;
     }

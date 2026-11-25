@@ -4,14 +4,16 @@ Pitot is a Windows 11 taskbar system monitor: a taskbar strip shows glanceable n
 
 ## Getting started
 
-1. Read `docs/progress.md` for current status, unverified hardware paths, and next steps. **Pick up from there; do not re-plan.**
-2. Read only what the task requires:
+1. For ongoing work, start from its Issue or PR context. See `docs/progress.md` for milestone history, release status, and hardware checks still needed.
+2. Use `docs/README.md` to find the subsystem and read only the documents the task needs.
 
 | Task | Read first |
 | --- | --- |
-| Requirements, surfaces, milestones, settings | `docs/architecture.md`, `docs/configuration.md` |
-| Hardware registers, sensors, decoding | `docs/hardware.md`, `src/sensors/AGENTS.md` |
-| UI layout, copy rules, Chinese–English glossary | `docs/design.md`, `src/ui/AGENTS.md` |
+| Processes, threading, module boundaries | `docs/architecture.md` |
+| Subsystem behavior and verification | `docs/README.md` (Subsystems table) |
+| Settings keys, defaults, INI contract | `docs/configuration.md` |
+| Hardware registers, sensors, decoding | Relevant `docs/subsystems/` page, `src/sensors/AGENTS.md`, `docs/hardware.md` for writes and the measurement baseline |
+| UI layout, copy rules, Chinese–English glossary | Relevant UI subsystem page, `docs/design.md`, `src/ui/AGENTS.md` |
 | Lasting architectural or licensing decisions | `docs/decisions/README.md` (index only; open relevant `D-NNN.md`) |
 | Build, environment, test scripting | `docs/environment.md` |
 | Known pitfalls | `docs/gotchas.md` |
@@ -21,8 +23,8 @@ Pitot is a Windows 11 taskbar system monitor: a taskbar strip shows glanceable n
 
 ## Roles
 
-- **User**: raises requirements and performs hardware verification on physical devices.
-- **Agent**: owns implementation, unit tests, and specification/documentation updates (authorized 2026-11-04). When requirements change, update `docs/architecture.md` or `docs/configuration.md` first, record architectural trade-offs in `docs/decisions/` if lasting, then implement. Ask the user only when a spec contradiction or ambiguity materially alters user-visible behavior.
+- **Maintainers and contributors**: propose or clarify requirements, review changes, and report physical verification from matching devices in Issues or PRs.
+- **Agent**: owns assigned implementation, unit tests, and documentation updates (authorized 2026-11-04). When requirements change, update the relevant subsystem, architecture, or configuration spec first. Record lasting architectural trade-offs in `docs/decisions/`, then implement. Ask the user only when a spec contradiction or ambiguity materially alters user-visible behavior.
 
 ## Build and verify
 
@@ -33,7 +35,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-docs.ps1    
 
 Before finishing a task:
 1. Build Debug and Release with zero warnings (`/W4 /WX`) and pass all unit tests (`pitot_tests.exe`).
-2. Self-check against the milestone criteria in `docs/architecture.md`.
+2. Self-check the affected subsystem's behavior and verification notes. See `docs/progress.md` for milestone status.
 3. Run `scripts/check-docs.ps1` after any documentation change.
 4. **Hardware verification** (comparing readings and resource usage against HWiNFO, Task Manager, RAMMap, `nvidia-smi`, etc.) can only be done on matching physical hardware. Never claim unverified paths passed hardware checks; record any unverified paths in `docs/progress.md` and note them clearly for the user.
 5. Features requiring administrator rights (PawnIO, kernel ETW, `SystemMemoryListInformation`) cannot run in a normal-privilege shell; state this clearly and ask the user to verify elevated.
@@ -73,7 +75,7 @@ Defined solely in `src/common/names.h`; reference constants everywhere instead o
 - **Compiler & encoding**: `/std:c++20 /W4 /WX /permissive- /utf-8`, x64, Unicode (`W` APIs). UTF-8 LF source files. Identifiers, commits, and docs in English; **code comments in Simplified Chinese** explaining *why* only.
 - **ASCII-only files**: `scripts/*.ps1`, `.rc`, and `src/app/resource.h` must remain ASCII-only (`docs/gotchas.md`).
 - **RAII & error handling**: wrap handles/COM/D2D in RAII (`unique_handle`, `ComPtr`). Never let exceptions cross `WndProc`, thread entries, or C/ETW callbacks.
-- **Constants & UI strings**: register/MSR/SMN constants go in named headers backed by `docs/hardware.md`; user-visible strings live in `src/ui/strings.*` (default Simplified Chinese); `config.ini` stays UTF-16LE with BOM.
+- **Constants & UI strings**: register/MSR/SMN constants go in named headers backed by the relevant subsystem page; user-visible strings live in `src/ui/strings.*` (default Simplified Chinese); `config.ini` stays UTF-16LE with BOM.
 
 ## Working method & doc maintenance
 
@@ -81,4 +83,4 @@ Defined solely in `src/common/names.h`; reference constants everywhere instead o
 - Before tests altering Windows theme, scaling, or Explorer, save state, restore immediately, and report changes (`docs/gotchas.md`).
 - Commit using the repo's configured GitHub noreply email (`git config user.email`) and avoid double quotes in PowerShell commit messages.
 - Respect local hooks.
-- Update docs alongside changes: lasting architecture/licensing trade-off → `docs/decisions/` + index; hardware facts/writes → `docs/hardware.md`; pitfall → `docs/gotchas.md`; status/unverified hardware → `docs/progress.md`; spec/settings → `docs/architecture.md` / `docs/configuration.md`. Keep this file ≤ 150 lines.
+- Update the source document for any changed behavior or constraint using the map in `docs/README.md`. Record hardware writes in the shared inventory, lasting trade-offs in `docs/decisions/` and its index, and hardware verification status in `docs/progress.md`. Keep this file ≤ 150 lines.

@@ -8,7 +8,7 @@
 namespace pitot::etw {
 
 // 系统记录器会话（D-007、D-037）收到的内核事件。
-// 事件类 GUID、操作码和字段偏移见 docs/hardware.md "ETW Kernel Events"，2026-11-04 用 TDH 在本机逐项核对过。
+// 事件类 GUID、操作码和字段偏移见 docs/subsystems/etw.md，2026-11-04 用 TDH 在本机逐项核对过。
 
 // 事件类 GUID（MOF 类 Thread、DiskIo、TcpIp、UdpIp）
 inline constexpr GUID kThreadGuid = {0x3d6fa8d1, 0xfe05, 0x11d0, {0x9d, 0xda, 0x00, 0xc0, 0x4f, 0xd7, 0xba, 0x7c}};

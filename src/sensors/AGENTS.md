@@ -1,6 +1,6 @@
 # src/sensors · Hardware Access Rules
 
-Before working in this directory, read `docs/hardware.md` (registers, protocols, decoding formulas and their sources, measurements on this machine). The rules in the root `AGENTS.md` apply as well.
+Before working in this directory, use the Subsystems table in `docs/README.md` to find the relevant hardware page. It contains protocols, register definitions, decoding sources, and measurements. Read `docs/hardware.md` for the shared write inventory and measurement baseline. The root `AGENTS.md` also applies.
 
 ## Coexistence with FanControl
 
@@ -16,7 +16,7 @@ Before working in this directory, read `docs/hardware.md` (registers, protocols,
 ## Other
 
 - Identify the CPU by CPUID family/model, never by a hard-coded model.
-- New register, MSR or SMN addresses: define named constants in `decode.h` and add an entry with its source to `docs/hardware.md`; check decoding formulas against LibreHardwareMonitor first, and do not write them from memory.
+- New register, MSR or SMN addresses: define named constants in `decode.h` and add an entry with its source to the relevant subsystem page; check decoding formulas against LibreHardwareMonitor first, and do not write them from memory.
 - LibreHardwareMonitor (MPL-2.0) is consulted for facts only; write your own code.
 - `adlx_abi.h` is the only interface between `Pitot.exe` and `PitotAdlx.dll`; it holds custom C types only and includes no ADLX header.
 - NVIDIA extended metrics go through `PitotNvidia.dll` (`src/nvidia/`), which calls `nvml.dll` and, only for a missing fan or memory temperature, the public `nvapi64.dll` entries. It must not call `nvmlDeviceSet*` or any unpublished NVAPI id. `Pitot.exe` does not link either DLL (D-081).

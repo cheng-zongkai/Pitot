@@ -1,14 +1,14 @@
 # Configuration
 
-Every user setting, its default, and its storage format. UI behavior is described in [architecture.md](architecture.md); implementation lives in `src/config/config.*` and `src/ui/settings_window.cpp`.
+Every user setting, its default, and its storage format. See [Settings](subsystems/settings.md) for the editing and undo behavior. Configuration parsing and migrations live in `src/config/config.*`.
 
 ## Storage and Live Reload
 
 Settings are stored in `%APPDATA%\Pitot\config.ini` (UTF-16LE with BOM, read/written via Win32 `GetPrivateProfileStringW` / `WritePrivateProfileStringW`). UTF-8 breaks non-ASCII aliases.
 
-- `Pitot.exe --settings` writes changes immediately on interaction (no Save button). The main process watches `%APPDATA%\Pitot\` and reloads within ~0.3 s. Manual edits work the same way.
-- **Undo changes** restores each setting edited on the current page to its value before the first edit in this Settings session. It also restores Start at logon when changed on General.
+- The monitor watches `%APPDATA%\Pitot\` and reloads changes within ~0.3 s. This applies to edits from Settings and manual INI edits.
 - First launch writes a full commented template in the Windows display language. Upgrades append only missing sections or keys (`kAddedKeys` in `config.cpp`) without overwriting user values.
+- When migrating older strip layouts, Pitot reads the legacy order and labels and drops the retired standalone `power` item.
 - Out-of-range values are clamped; missing or invalid keys fall back to defaults.
 
 ## Settings Reference
@@ -38,9 +38,9 @@ Settings are stored in `%APPDATA%\Pitot\config.ini` (UTF-16LE with BOM, read/wri
 | Network | Show virtual adapters, traffic stats, monthly reset day (`1`–`28`) | `1`, `1`, `1` | `[network] show_virtual`, `usage`, `reset_day` |
 | Network | Latency ping toggle and target host/IP | `0`, `1.1.1.1` | `[network] ping`, `ping_target` |
 
-Taskbar strip spacing values, including per-item `~gap`, accept nonnegative pixel values without a fixed layout limit. The strip clips to the taskbar space available to it.
+Taskbar strip spacing values, including per-item `~gap`, accept nonnegative pixel values. See the [strip editor](subsystems/taskbar-strip.md#settings-item-editor) for overflow behavior.
 
-**Adapter identification:** Saved by `InterfaceGuid` so adapter selection survives interface index changes across reboots. If the chosen adapter disconnects, Pitot temporarily falls back to Auto with a one-line notice.
+See [Network metrics](subsystems/network.md) for adapter selection and fallback behavior.
 
 **Sensor keys (`src/sampler/sensor_keys.h`):**
 - CPU: `amd.tctl`, `amd.ccd1`…, `intel.package`

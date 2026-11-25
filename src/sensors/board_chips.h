@@ -5,7 +5,7 @@
 
 // 主板 Super I/O 芯片的识别表、通道布局和读数解码（D-085）。纯函数，有单元测试。
 // 芯片 ID、寄存器和公式来自 LHM master LibreHardwareMonitorLib/Hardware/Motherboard/Lpc/
-// （LpcIO.cs、Nct677X.cs、IT87XX.cs、F718XX.cs，2026-11-11），出处细节见 docs/hardware.md。
+// （LpcIO.cs、Nct677X.cs、IT87XX.cs、F718XX.cs，2026-11-11），出处细节见 docs/subsystems/board-sensors.md。
 
 namespace pitot::sensors {
 

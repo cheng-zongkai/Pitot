@@ -10,4 +10,4 @@ Before changing the UI or its copy, read `docs/design.md` (less-AI-flavor rules 
 - **Show readings as they are**: a stopped fan reads `0 RPM`; "—" only means unreadable.
 - **Window materials**: the flyout gets acrylic only with `WS_POPUP | WS_CAPTION` plus a collapsed non-client area (D-049); the settings window uses system Mica (D-042, `docs/design.md` rule 11). Read these before changing window styles.
 - To check UI behavior, open the flyout with a real click (opening it from the background with `PostMessage` does not paint acrylic), and set DPI awareness before taking screenshots. See `docs/environment.md`, "UI Automation & Screenshots".
-- The layout and sizes are described in `docs/architecture.md`, "Surfaces"; layout constants live as named constants in code.
+- Use `docs/subsystems/taskbar-strip.md`, `flyout.md`, or `settings.md` for the affected surface's layout, interaction, and validation. Keep layout constants named in code.

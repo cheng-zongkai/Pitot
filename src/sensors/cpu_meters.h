@@ -11,7 +11,7 @@
 #include "sensors/decode.h"
 
 // AMD 和 Intel 共用的两种计算：能量计数 → 封装功耗，APERF / MPERF → 运行时平均频率。
-// 两边只是 MSR 编号和单位不同（docs/hardware.md）。
+// 两边只是 MSR 编号和单位不同（见 docs/subsystems/cpu.md）。
 
 namespace pitot::sensors {
 

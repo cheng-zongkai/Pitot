@@ -12,8 +12,8 @@
 namespace pitot::sensors {
 namespace {
 
-constexpr ULONGLONG kRescanMs = 30'000;      // 容量、型号、卷（docs/architecture.md：容量 30 s）
-constexpr ULONGLONG kTemperatureMs = 10'000;  // NVMe 温度（docs/architecture.md：10 s）
+constexpr ULONGLONG kRescanMs = 30'000;      // 容量、型号、卷（见 docs/subsystems/storage.md）
+constexpr ULONGLONG kTemperatureMs = 10'000;  // NVMe 温度（见 docs/subsystems/storage.md）
 constexpr uint32_t kMaxDriveNumber = 16;      // 只看 PhysicalDrive0–15
 // 温度读数超出这个范围当作无效
 constexpr int kMinCelsius = -40;

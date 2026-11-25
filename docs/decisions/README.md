@@ -1,6 +1,6 @@
 # Architecture Decision Records
 
-Lasting architectural, licensing, concurrency, and Win32-interop decisions live here (`D-NNN.md`). Product specs, UI copy rules, settings, and hardware registers belong in `docs/architecture.md`, `docs/design.md`, `docs/configuration.md`, and `docs/hardware.md` rather than new decision files.
+These records describe the rationale for lasting architectural, licensing, concurrency, and Win32 interoperability decisions. Use the [documentation map](../README.md) for current architecture, subsystem behavior, UI rules, and configuration.
 
 ## Adding an entry
 
@@ -45,14 +45,25 @@ Lasting architectural, licensing, concurrency, and Win32-interop decisions live 
 
 ## Folded decisions
 
-Smaller UI, feature, and implementation notes (`D-005`..`D-090` not listed above) were folded into the specifications so contributors have fewer files to cross-reference. Code comments referencing older IDs map here:
+Smaller UI, feature, and implementation notes were folded into the specifications. This table routes historical IDs used in code or earlier documentation.
 
 | Former IDs | Where documented now |
 | --- | --- |
 | `D-005` | Superseded by [D-033](D-033.md) |
-| `D-008`, `D-009`, `D-012`, `D-027`, `D-028`, `D-037`, `D-039`–`D-041`, `D-044`–`D-048`, `D-050`, `D-054`–`D-056`, `D-060`–`D-062`, `D-065`, `D-078`, `D-079`, `D-083`, `D-086`, `D-090` | [docs/architecture.md](../architecture.md) and [docs/hardware.md](../hardware.md) |
-| `D-010`, `D-011`, `D-021`–`D-023`, `D-057`, `D-059`, `D-066`–`D-077` | [docs/configuration.md](../configuration.md) and [docs/architecture.md](../architecture.md) |
+| `D-008`, `D-031`, `D-038`, `D-044`, `D-048`, `D-051`, `D-058`, `D-065`, `D-072`, `D-087` | [Flyout](../subsystems/flyout.md). For strip click routing, see [Taskbar strip](../subsystems/taskbar-strip.md#items-and-interaction) |
+| `D-010`, `D-022`, `D-059`, `D-071`, `D-076`, `D-079` | [Configuration](../configuration.md), including storage, migration, and setting defaults |
+| `D-011`, `D-021`, `D-041` | [Network](../subsystems/network.md) for adapter selection and traffic. For accent color, see [Configuration](../configuration.md#settings-reference) |
+| `D-012` | [CPU metrics](../subsystems/cpu.md) |
+| `D-023`, `D-053`, `D-070` | [Settings](../subsystems/settings.md), [Design](../design.md), and [sensor keys](../configuration.md#settings-reference) |
+| `D-027`, `D-046`, `D-083` | [Sampling](../subsystems/sampling.md#collector-lifetimes) |
+| `D-028` | [CPU metrics](../subsystems/cpu.md#amd-zen) and [motherboard sensors](../subsystems/board-sensors.md) |
+| `D-029`, `D-032`, `D-035`, `D-043`, `D-052` | [UI and copy rules](../design.md) and the [UI subsystem pages](../README.md#subsystems) |
+| `D-030` | [Flyout process lists](../subsystems/flyout.md#process-lists) |
+| `D-036`, `D-057`, `D-066`–`D-069`, `D-073`–`D-075`, `D-077` | [Taskbar strip](../subsystems/taskbar-strip.md) |
+| `D-037`, `D-050`, `D-060`–`D-061` | [ETW sampling boundary](../subsystems/etw.md#sampling-boundary-and-startup) and [flyout process lists](../subsystems/flyout.md#process-lists) |
+| `D-045` | [Elevation and autostart](D-002.md) |
+| `D-078` | [Milestone history](../progress.md#status) and [diagnostics environment](../environment.md) |
 | `D-014`–`D-017`, `D-019`, `D-025`, `D-026`, `D-064`, `D-080`, `D-082`, `D-088` | [docs/environment.md](../environment.md) and [CONTRIBUTING.md](../../CONTRIBUTING.md) |
 | `D-020` | Folded into [D-006](D-006.md) |
-| `D-029`–`D-032`, `D-035`, `D-036`, `D-038`, `D-043`, `D-051`–`D-053`, `D-058`, `D-087` | [docs/design.md](../design.md) and [docs/architecture.md](../architecture.md) |
-| `D-089` | Folded into [D-024](D-024.md) and [docs/gotchas.md](../gotchas.md) |
+| `D-089` | [Flyout verification](../subsystems/flyout.md#verification), [D-024](D-024.md), and [known pitfalls](../gotchas.md) |
+| `D-009`, `D-039`–`D-040`, `D-047`, `D-054`–`D-056`, `D-062`, `D-086`, `D-090` | The earlier index grouped these IDs under architecture and hardware. Use the [subsystem map](../README.md#subsystems) to locate the current specification |

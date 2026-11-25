@@ -124,6 +124,7 @@ To dry-run the packaging locally, run `scripts/get-innosetup.ps1` once, `scripts
 - Task Manager "Memory" corresponds to **private working set** (`PROCESS_MEMORY_COUNTERS_EX2.PrivateWorkingSetSize`); `Get-Process` `PrivateMemorySize64` is **private commit**. Check both.
 - Wait at least 10 seconds after closing the flyout before measuring (heap/D2D memory release is lazy).
 - `memory:` lines in `%LOCALAPPDATA%\Pitot\pitot.log` log private commit across startup and flyout open/close.
+- The previous reference footprint on the primary machine was about 8 MB with the strip only and 12 MB after opening the flyout.
 - CPU usage: `(TotalProcessorTime delta) / (wall delta * logical cores)`.
 
 ## UI Automation & Screenshots

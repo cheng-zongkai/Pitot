@@ -130,7 +130,7 @@ The output is `build\x64-release\Pitot.exe`, with `PitotNvidia.dll` next to it. 
 ### Run
 
 1. Start `Pitot.exe` and accept the UAC prompt. The strip appears in the taskbar.
-2. Click an item to open the flyout on its panel. Click again or press <kbd>Esc</kbd> to close it; the pin keeps it open.
+2. Click an item to open the flyout on its panel. Click again or press <kbd>Esc</kbd> to close it. Pin the flyout to keep it open when it loses focus.
 3. Open Settings with the gear in the flyout, and turn on **Start at logon** to skip the UAC prompt from then on.
 
 Hover the strip for exact values. Right-click it to exit.
@@ -226,7 +226,7 @@ Local builds and unsigned release binaries do not carry an Authenticode publishe
 
 Issues, hardware compatibility reports, and pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for prerequisites, coding conventions, and PR checklists, and [SECURITY.md](SECURITY.md) for vulnerability reporting.
 
-- [docs/architecture.md](docs/architecture.md) — surfaces, data sources, threading model, and milestones
+- [Developer documentation](docs/README.md) covers the architecture, individual subsystems, and verification.
 - [docs/decisions/](docs/decisions/README.md) — architecture decision records
 - [AGENTS.md](AGENTS.md) — working rules for AI coding agents
 

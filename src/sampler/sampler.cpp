@@ -28,7 +28,7 @@
 namespace pitot::sampler {
 namespace {
 
-// 流量数据每分钟落盘一次（docs/architecture.md）
+// 流量数据每分钟落盘一次（见 docs/subsystems/network.md）。
 constexpr ULONGLONG kTrafficSaveMs = 60 * 1000;
 // 浮窗打开时补采第二轮用的间隔。运行频率和进程 CPU 占用都要两轮差值，第一轮只建立基准；
 // 按完整周期等下去会让 CPU 面板空着“—”和“正在统计…”一到两秒

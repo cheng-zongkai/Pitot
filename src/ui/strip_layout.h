@@ -149,7 +149,7 @@ inline float StripWindowWidth(float content_width) {
 }
 
 // 任务栏左缘到开始按钮左缘的距离（DIP）→ 任务栏条窗口最多能有多宽。
-// 图标靠左时开始按钮就在最左边，结果是 0，任务栏条放不下（docs/architecture.md：不压开始按钮）
+// 图标靠左时开始按钮就在最左边，结果是 0，任务栏条放不下（见 docs/subsystems/taskbar-strip.md）。
 inline float StripRoomDip(std::optional<float> start_offset) {
     if (!start_offset) {
         return kStripFallbackRoomDip;

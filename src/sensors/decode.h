@@ -4,7 +4,8 @@
 #include <optional>
 
 // 传感器寄存器的地址与解码。纯函数，有单元测试。
-// 每个常量和公式在 docs/hardware.md 有条目和出处（LHM = LibreHardwareMonitor master，2026-11-04）。
+// 常量和公式的出处见 docs/subsystems/cpu.md 和 docs/subsystems/board-sensors.md。
+// LHM 指 LibreHardwareMonitor master（2026-11-04）。
 
 namespace pitot::sensors {
 

@@ -135,7 +135,7 @@ source code with only those rights set forth herein.
 ### LibreHardwareMonitor
 
 - Source: <https://github.com/LibreHardwareMonitor/LibreHardwareMonitor>, license MPL-2.0.
-- Use: checking register addresses, decoding formulas and the EC access sequence (each source is recorded in `docs/hardware.md`). Pitot's code is independently written C++ and does not copy or translate LHM's source line by line.
+- Use: checking register addresses, decoding formulas and the EC access sequence (see the CPU and motherboard sensor references in `docs/README.md`). Pitot's code is independently written C++ and does not copy or translate LHM's source line by line.
 
 ### Anthropic `frontend-design` skill
 

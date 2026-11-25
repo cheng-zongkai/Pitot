@@ -53,7 +53,7 @@ Pitot's own source code is licensed under the [MIT License](LICENSE). Because th
 
 ## Submitting Pull Requests
 
-1. Keep changes focused and update the relevant file under [docs/](docs/README.md) when requirements, configuration keys, or hardware facts change.
+1. Keep changes focused. Link the related Issue when there is one. Use the [subsystem map](docs/README.md#subsystems) to find the code and update the document that owns any changed behavior. Use the [project references](docs/README.md#project-references) for shared rules, settings, and decision rationale.
 2. Run `scripts/build.ps1 -Config all -Test` and `scripts/check-docs.ps1`.
-3. Clearly state in your PR description which hardware and Windows build you tested on, and note any paths that remain unverified (e.g., Intel CPUs, NVIDIA GPUs, or untested Super I/O chips).
+3. In the PR, state which hardware and Windows build you tested on, what you observed, and which paths remain unverified. Use the [hardware report form](https://github.com/cheng-zongkai/Pitot/issues/new?template=hardware_report.yml) to share standalone hardware results.
 4. See [AGENTS.md](AGENTS.md) if you are using an AI coding agent.
