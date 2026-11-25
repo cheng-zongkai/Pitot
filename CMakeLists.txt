@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(Pitot VERSION 0.1.0 LANGUAGES CXX)
+project(Pitot VERSION 0.1.1 LANGUAGES CXX)
 
 if(NOT MSVC)
   message(FATAL_ERROR "Pitot 只支持 MSVC 编译")

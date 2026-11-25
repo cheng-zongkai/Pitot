@@ -10,8 +10,8 @@ IDR_PAWNIO_INTELMSR RCDATA "../../third_party/pawnio/IntelMSR.bin"
 
 // FileDescription is what Task Manager (and Pitot's own process list) shows as the name
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,1,0,0
- PRODUCTVERSION 0,1,0,0
+ FILEVERSION 0,1,1,0
+ PRODUCTVERSION 0,1,1,0
  FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
  FILEFLAGS 0
  FILEOS VOS_NT_WINDOWS32
@@ -24,8 +24,8 @@ BEGIN
     BEGIN
       VALUE "FileDescription", "Pitot"
       VALUE "ProductName", "Pitot"
-      VALUE "FileVersion", "0.1.0"
-      VALUE "ProductVersion", "0.1.0"
+      VALUE "FileVersion", "0.1.1"
+      VALUE "ProductVersion", "0.1.1"
       VALUE "OriginalFilename", "Pitot.exe"
     END
   END
